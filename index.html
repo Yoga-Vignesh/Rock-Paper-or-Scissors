@@ -10,7 +10,7 @@
 
     <button
       onclick="
-      func();
+      const comMove = func();
       let result = '';
       if(comMove === 'rock'){
         result = 'Tie';
@@ -20,7 +20,6 @@
         result = 'You Win';
       }
         alert(`You picked rock. Computer picked ${comMove}. ${result}`); 
-
       "
     >
       Rock
@@ -28,7 +27,7 @@
 
     <button
       onclick="
-      func();
+      comMove = func();
       result = '';
       if(comMove === 'rock'){
         result = 'You Win.';
@@ -45,7 +44,7 @@
 
     <button
       onclick="
-      func();
+      comMove = func();
       result = '';
       if(comMove === 'rock'){
         result = 'You Lose.';
@@ -62,7 +61,6 @@
     </button>
 
     <script>
-      let comMove = '';
     function func(){
     const ranNum = Math.random();
     if(ranNum >= 0 && ranNum < 1/3){
@@ -72,6 +70,7 @@
     }else if(ranNum >= 2/3 && ranNum < 1){
       comMove = 'scissors';
     }
+    return comMove;
   }
     </script>
   </body>
