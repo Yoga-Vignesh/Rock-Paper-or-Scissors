@@ -32,27 +32,48 @@
       Scissors
     </button>
 
+    <p class="res"></p>
+    <p class="move"></p>
+
+    <p class="scoreboard">
+
+    </p>
+
     <button 
     onclick="
     score.wins = 0;
     score.losses = 0;
     score.ties = 0;
+    localStorage.removeItem('score');
+    updateScore();
     "
     >
     Reset Score
     </button>
 
     <script>
+    
+      let score = JSON.parse(localStorage.getItem('score')) || {
+          wins: 0, 
+          losses: 0,
+          ties: 0
+      };
 
-      const score = {
-        wins: 0,
-        losses: 0,
-        ties: 0 
+      updateScore();
+      /*
+      if(!score){
+        score = {
+          wins: 0,
+          losses: 0,
+          ties: 0
+        };
       }
+      */
 
       //function for displaying the result
       function playGame(playerMove){
         comMove = func();
+
         
         let result = '';
         if(playerMove === 'rock'){
@@ -64,18 +85,6 @@
             result = 'You Win.';
           }
 
-          //calculates score
-          if(result === 'You Win.'){
-            score.wins += 1;
-          }else if(result === 'You Lose.'){
-            score.losses += 1;
-          }else if(result === 'Tie.'){
-            score.ties += 1;
-          }
-            alert(`You picked ${playerMove}. Computer picked ${comMove}. ${result} 
-Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties} `); 
-
-
         }else if(playerMove === 'paper'){
           if(comMove === 'rock'){
             result = 'You Win.';
@@ -85,16 +94,6 @@ Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties} `);
             result = 'You Lose.';
           }
 
-          if(result === 'You Win.'){
-            score.wins += 1;
-          }else if(result === 'You Lose.'){
-            score.losses += 1;
-          }else if(result === 'Tie.'){
-            score.ties += 1;
-          }
-            alert(`You picked ${playerMove}. Computer picked ${comMove}. ${result} 
-Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties} `); 
-
         }else if(playerMove === 'scissors'){
           if(comMove === 'rock'){
             result = 'You Lose.';
@@ -103,21 +102,32 @@ Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties} `);
           }else if(comMove === 'scissors'){
             result = 'Tie.'
           }
+        }
+
           if(result === 'You Win.'){
-            score.wins = score.wins + 1;
-            console.log(score);
+            score.wins += 1;
           }else if(result === 'You Lose.'){
             score.losses += 1;
           }else if(result === 'Tie.'){
             score.ties += 1;
           }
-      
-          alert(`You picked ${playerMove} Computer picked ${comMove}. ${result}
-Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`);
-        }
-      }
+  
+          localStorage.setItem('score',JSON.stringify(score));
 
-      
+          updateScore();
+
+          document.querySelector('.res')
+          .innerHTML = result;
+
+          document.querySelector('.move')
+          .innerHTML = `You - ${playerMove}, Computer - ${comMove}`;
+      }
+        
+          function updateScore(){
+            document.querySelector('.scoreboard')
+            .innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+          }
+    
       //function for picking computer move
       function func(){
       const ranNum = Math.random();
@@ -130,6 +140,7 @@ Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`);
       }
       return comMove;
     }
+  
     </script>
   </body>
 </html>
